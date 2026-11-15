@@ -1,0 +1,282 @@
+/* Defacer Studios. The studio shell is neutral across genres; its one signature is
+   the slash "cut" through the wordmark (.cut). Game cards and buttons get notched
+   corners. Each game page swaps colours and type through a theme class
+   (see "Game themes" at the end). */
+:root {
+  --ink: #12151c;        /* page */
+  --band: #1a1e27;       /* alternate band, cards */
+  --edge: #2b303c;       /* lines */
+  --bone: #ece8e1;       /* text */
+  --fog: #8e95a3;        /* secondary text */
+  --cyan: #36e2f0;       /* the cut, focus */
+  --magenta: #ff3b7f;    /* the cut */
+  --accent: var(--bone); /* buttons; game themes override */
+  --accent-ink: var(--ink);
+  --notch: 22px;
+  --max: 1160px;
+  --display: "Big Shoulders Display", "Barlow Condensed", Impact, sans-serif;
+  --text: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background:
+    repeating-linear-gradient(-14deg, transparent 0 22px, rgba(236, 232, 225, 0.018) 22px 23px),
+    var(--ink);
+  color: var(--bone);
+  font-family: var(--text);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--bone); text-decoration-color: var(--fog); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 800; line-height: 0.95; letter-spacing: 0.005em; margin: 0; }
+p { margin: 0; }
+.wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+.fog { color: var(--fog); }
+
+/* --- The cut: a word sliced on a diagonal, the lower half shifted along the slash --- */
+.cut { --l: 64%; --r: 40%; --w: 1.5%; position: relative; display: inline-block; font-family: var(--display); font-weight: 900; text-transform: uppercase; line-height: 0.82; white-space: nowrap; }
+.cut > span { display: block; }
+/* --l / --r: where the cut meets the left and right edges; --w: half the edge's thickness. */
+.cut .a { clip-path: polygon(0 0, 100% 0, 100% var(--r), 0 var(--l)); }
+.cut .b { position: absolute; inset: 0; clip-path: polygon(0 var(--l), 100% var(--r), 100% 100%, 0 100%); transform: translate(0.05em, 0.035em); }
+.cut::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  clip-path: polygon(0 calc(var(--l) - var(--w)), 100% calc(var(--r) - var(--w)), 100% calc(var(--r) + var(--w)), 0 calc(var(--l) + var(--w)));
+  background: linear-gradient(90deg, var(--cyan), var(--magenta));
+  transform: translate(0.025em, 0.018em);
+}
+.hero .cut .b { animation: slice 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s both; }
+.hero .cut::after { animation: flash 0.7s ease-out 0.25s both; }
+@keyframes slice { from { transform: translate(0, 0); } to { transform: translate(0.05em, 0.035em); } }
+@keyframes flash { from { opacity: 0; transform: translate(0, 0) scaleX(0.2); } to { opacity: 1; transform: translate(0.025em, 0.018em) scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .hero .cut .b, .hero .cut::after { animation: none; } }
+
+/* --- Notched shapes (game cards, buttons) --- */
+.notch { --n: var(--notch); clip-path: polygon(0 0, calc(100% - var(--n)) 0, 100% var(--n), 100% 100%, var(--n) 100%, 0 calc(100% - var(--n))); }
+
+/* Header */
+.top { position: sticky; top: 0; z-index: 10; background: rgba(18, 21, 28, 0.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--edge); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+.logo { text-decoration: none; font-size: 30px; color: var(--bone); }
+.logo .cut { letter-spacing: 0.02em; }
+.nav { display: flex; gap: 28px; font-weight: 600; font-size: 16px; }
+.nav a { color: var(--fog); text-decoration: none; }
+.nav a:hover { color: var(--bone); }
+
+/* Hero */
+.hero {
+  position: relative; overflow: hidden; isolation: isolate;
+  min-height: min(70vh, 660px); display: flex; align-items: flex-end;
+  padding: 110px 0 72px;
+  background:
+    radial-gradient(520px 360px at 92% 8%, rgba(255, 59, 127, 0.20), transparent 70%),
+    radial-gradient(620px 420px at 4% 96%, rgba(54, 226, 240, 0.14), transparent 70%),
+    var(--ink);
+}
+.hero::after { /* film grain */
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0.16; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.shards { position: absolute; inset: 0; z-index: -2; }
+.shard {
+  position: absolute; top: -10%; bottom: -10%; background-size: cover; background-position: center;
+  filter: saturate(0.95) brightness(0.8);
+}
+.shard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18, 21, 28, 0.05), rgba(18, 21, 28, 0.7)); }
+.shard { box-shadow: inset 0 0 0 1px rgba(236, 232, 225, 0.08); }
+/* Parallelograms leaning on the slash's angle, spread to the right. */
+.shard.s1 { left: 38%; width: 30%; clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%); }
+.shard.s2 { left: 60%; width: 26%; clip-path: polygon(34% 0, 100% 0, 66% 100%, 0 100%); opacity: 0.85; }
+.shard.s3 { left: 79%; width: 30%; clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%); opacity: 0.7; }
+.shards::after { /* fade the art into the page on the left and bottom */
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, var(--ink) 26%, rgba(18, 21, 28, 0.35) 58%, rgba(18, 21, 28, 0.05)), linear-gradient(0deg, var(--ink), transparent 40%);
+}
+.hero .wrap { position: relative; }
+.hero .cut { --l: 80%; --r: 22%; --w: 2%; font-size: clamp(40px, 11.6vw, 168px); letter-spacing: -0.005em; }
+.hero .lede { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px 48px; margin-top: 40px; }
+.hero .lede p { font-size: clamp(19px, 2vw, 24px); max-width: 30ch; line-height: 1.45; }
+
+/* News strip: a slanted broadcast band under the hero */
+.strip { position: relative; z-index: 2; margin-top: -26px; transform: skewY(-1.6deg); background: var(--bone); color: var(--ink); border-top: 3px solid var(--cyan); border-bottom: 3px solid var(--magenta); }
+.strip-inner { transform: skewY(1.6deg); max-width: var(--max); margin: 0 auto; padding: 14px 20px; display: flex; flex-wrap: nowrap; overflow: hidden; white-space: nowrap; align-items: center; gap: 22px; font-family: var(--display); font-weight: 800; font-size: clamp(17px, 2vw, 22px); letter-spacing: 0.01em; }
+.strip-inner strong { font-weight: 900; }
+.strip-inner i { width: 12px; height: 18px; background: linear-gradient(180deg, var(--cyan), var(--magenta)); clip-path: polygon(60% 0, 100% 0, 40% 100%, 0 100%); }
+
+/* Buttons */
+.btn {
+  --n: 10px;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 14px 26px; font-family: var(--display); font-weight: 800; font-size: 20px; letter-spacing: 0.03em;
+  text-decoration: none; color: var(--accent-ink); background: var(--accent);
+  clip-path: polygon(0 0, calc(100% - var(--n)) 0, 100% var(--n), 100% 100%, var(--n) 100%, 0 calc(100% - var(--n)));
+}
+.btn:hover { filter: brightness(1.1); }
+.btn.ghost { color: var(--bone); background: var(--edge); }
+.btn.soon { cursor: default; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* Sections */
+.block { padding: 88px 0; }
+.block.band { position: relative; overflow: hidden; background: var(--band); border-top: 1px solid var(--edge); border-bottom: 1px solid var(--edge); }
+.block.band::before { content: ""; position: absolute; right: -6%; top: -30%; width: 40%; height: 160%; background: linear-gradient(180deg, rgba(54, 226, 240, 0.07), rgba(255, 59, 127, 0.07)); clip-path: polygon(62% 0, 100% 0, 38% 100%, 0 100%); pointer-events: none; }
+.block.band > .wrap { position: relative; }
+.block h2 { font-size: clamp(44px, 6vw, 72px); margin-bottom: 32px; }
+.block > .wrap > h2::before, .block .slash-head::before {
+  content: ""; display: inline-block; width: 0.32em; height: 0.72em; margin-right: 0.22em; vertical-align: 0.02em;
+  background: linear-gradient(180deg, var(--cyan), var(--magenta)); clip-path: polygon(60% 0, 100% 0, 40% 100%, 0 100%);
+}
+
+/* Featured game card: a 1px notched frame (outer) around a notched panel (inner).
+   --game is the game's own colour; the frame lights up in it on hover and focus. */
+.game-wrap { position: relative; }
+.game-wrap::before, .game-wrap::after { content: ""; position: absolute; width: 26px; height: 26px; border: 2px solid var(--cyan); pointer-events: none; z-index: 1; }
+.game-wrap::before { left: -10px; top: -10px; border-right: 0; border-bottom: 0; }
+.game-wrap::after { right: -10px; bottom: -10px; border-left: 0; border-top: 0; border-color: var(--magenta); }
+.game-card { --game: var(--bone); display: block; padding: 1px; background: var(--edge); text-decoration: none; color: var(--bone); transition: background 0.2s; }
+.game-card:hover, .game-card:focus-visible { background: var(--game); outline: none; }
+.game-card .inner { display: grid; grid-template-columns: 1.35fr 1fr; background: var(--band); }
+.game-card .art { position: relative; background: #000; min-height: 100%; }
+.game-card .art img { width: 100%; height: 100%; object-fit: cover; }
+.game-card .info { padding: 32px 32px 30px; display: flex; flex-direction: column; gap: 16px; }
+.game-card .name { display: flex; align-items: center; gap: 14px; }
+.game-card .name img { width: 56px; height: 56px; border-radius: 12px; }
+.game-card h3 { font-size: 46px; }
+.game-card .status { color: var(--game); font-weight: 700; font-size: 16px; }
+.game-card p { color: var(--fog); }
+.facts { list-style: none; margin: auto 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.facts li { font-size: 14px; font-weight: 600; padding: 4px 12px; background: var(--edge); color: var(--bone); }
+.more { margin-top: 20px; padding: 22px 26px; border: 1px dashed var(--edge); color: var(--fog); }
+.more strong { color: var(--bone); font-weight: 600; }
+
+/* Studio */
+.studio { display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: start; }
+.studio .statement { font-size: clamp(40px, 5vw, 64px); line-height: 1; margin: 0; }
+.creed { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+.creed li { position: relative; padding-left: 34px; color: var(--fog); }
+.creed li strong { display: block; color: var(--bone); font-weight: 600; font-size: 19px; }
+.creed li::before { content: ""; position: absolute; left: 0; top: 6px; width: 16px; height: 22px; background: linear-gradient(180deg, var(--cyan), var(--magenta)); clip-path: polygon(60% 0, 100% 0, 40% 100%, 0 100%); }
+
+/* Contact */
+.contact p { color: var(--fog); margin-bottom: 14px; }
+.contact .mail { font-family: var(--display); font-weight: 800; font-size: clamp(30px, 6vw, 68px); line-height: 1; text-decoration: none; word-break: break-word; background: linear-gradient(90deg, var(--cyan), var(--magenta)) left bottom / 0 3px no-repeat; transition: background-size 0.3s; padding-bottom: 6px; }
+.contact .mail:hover, .contact .mail:focus-visible { background-size: 100% 3px; }
+
+/* Footer */
+footer { border-top: 1px solid var(--edge); padding: 28px 0 44px; color: var(--fog); font-size: 15px; font-family: var(--text); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+footer a { color: var(--fog); }
+footer .links { display: flex; flex-wrap: wrap; gap: 22px; }
+
+/* --- Game pages: shared layout; the theme class sets the look --- */
+.back { display: inline-block; margin-bottom: 14px; color: var(--fog); font-weight: 600; font-size: 15px; text-decoration: none; }
+.back:hover { color: var(--bone); }
+.game-hero { padding-top: 40px; padding-bottom: 8px; }
+.game-hero .banner { background: #000; }
+.game-hero .banner img { width: 100%; }
+.game-hero .intro { display: flex; align-items: center; gap: 18px; margin: 28px 0 12px; }
+.game-hero .intro img { width: 84px; height: 84px; border-radius: 20px; }
+.game-hero h1 { font-size: clamp(40px, 7vw, 64px); }
+.lead { font-size: 19px; color: var(--fog); max-width: 62ch; margin-bottom: 22px; }
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.feature { background: var(--band); border: 1px solid var(--edge); padding: 22px; }
+.feature h3 { font-size: 24px; color: var(--accent); margin-bottom: 8px; }
+.feature p { color: var(--fog); font-size: 16px; }
+.gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.gallery img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--edge); }
+.page-title { font-size: clamp(36px, 5vw, 52px); margin-bottom: 26px; }
+
+/* 404 */
+.lost { min-height: 74vh; display: flex; align-items: center; }
+.lost .cut { font-size: clamp(110px, 26vw, 300px); color: var(--edge); }
+.lost h1 { font-size: clamp(40px, 6vw, 64px); margin: 18px 0 12px; }
+
+/* --- Game themes ------------------------------------------------------------ */
+/* Ember Siege: warm ember on charcoal, rounded game type. The studio header and
+   footer keep the studio's own type. */
+.theme-embersiege {
+  --ink: #0f0b09; --band: #1c1511; --edge: #3a2a1f;
+  --bone: #f4e6d0; --fog: #b8a58f; --accent: #ffb347; --accent-ink: #21140a;
+  --game-display: "Fredoka", "Nunito", sans-serif;
+}
+.theme-embersiege main { font-family: "Nunito", system-ui, sans-serif; }
+.theme-embersiege main h1, .theme-embersiege main h2, .theme-embersiege main h3 { font-family: var(--game-display); font-weight: 600; line-height: 1.1; }
+.theme-embersiege main .btn { font-family: var(--game-display); font-weight: 600; font-size: 17px; letter-spacing: 0; }
+.theme-embersiege .top { background: rgba(15, 11, 9, 0.88); }
+
+@media (max-width: 880px) {
+  .game-card .inner, .studio { grid-template-columns: 1fr; }
+  .studio { gap: 32px; }
+  .features { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  body { font-size: 17px; }
+  .hero { padding: 96px 0 56px; min-height: 0; }
+  .strip-inner span:not(:first-child), .strip-inner i { display: none; }
+  .shard.s1 { left: 18%; width: 50%; } .shard.s2 { left: 52%; width: 44%; } .shard.s3 { display: none; }
+  .game-wrap::before, .game-wrap::after { display: none; }
+  .block { padding: 60px 0; }
+  .nav { gap: 18px; font-size: 15px; }
+  .logo { font-size: 24px; }
+  .game-card .info { padding: 24px 22px; }
+  .game-card h3 { font-size: 38px; }
+  .gallery { grid-template-columns: 1fr; }
+}
+
+/* --- Interactive cut (assets/site.js): the cut follows the pointer smoothly --- */
+@property --l { syntax: "<percentage>"; inherits: true; initial-value: 64%; }
+@property --r { syntax: "<percentage>"; inherits: true; initial-value: 40%; }
+.hero .cut { cursor: crosshair; transition: --l 0.16s ease-out, --r 0.16s ease-out; touch-action: manipulation; }
+.hero .cut.recut .b { animation: slice 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.hero .cut.recut::after { animation: flash 0.45s ease-out both; }
+
+/* --- Game card preview clip --- */
+.game-card .art { overflow: hidden; }
+.game-card .art video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.35s; }
+.game-card.playing .art video { opacity: 1; }
+.game-card .art .play-hint { position: absolute; left: 14px; bottom: 12px; padding: 4px 10px; background: rgba(18, 21, 28, 0.78); color: var(--bone); font-size: 13px; font-weight: 600; transition: opacity 0.3s; }
+.game-card.playing .art .play-hint { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .game-card .art .play-hint { display: none; } }
+
+/* --- News strip links --- */
+.strip-inner a { color: inherit; text-decoration: none; }
+.strip-inner a:hover { text-decoration: underline; text-decoration-color: var(--magenta); text-decoration-thickness: 2px; }
+
+/* --- Text pages: news, posts and privacy policies (Jekyll layouts) --- */
+.prose { max-width: 760px; }
+.prose h1 { font-size: clamp(40px, 6vw, 64px); margin: 0 0 12px; }
+.prose h2 { font-size: clamp(28px, 3.4vw, 36px); margin: 40px 0 12px; }
+.prose h3 { font-size: 24px; margin: 28px 0 8px; }
+.prose p, .prose ul, .prose ol { margin: 0 0 16px; color: #cfcac1; }
+.prose li { margin-bottom: 6px; }
+.prose a { color: var(--cyan); }
+.prose strong { color: var(--bone); }
+.prose em:first-child { color: var(--fog); }
+.post-meta { color: var(--fog); margin-bottom: 28px; }
+.news-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.news-list li { padding: 1px; background: var(--edge); }
+.news-list a { display: block; padding: 22px 24px; background: var(--band); text-decoration: none; }
+.news-list a:hover { background: #20252f; }
+.news-list .date { color: var(--fog); font-size: 15px; }
+.news-list h2 { font-size: 30px; margin: 4px 0 8px; }
+.news-list p { color: var(--fog); margin: 0; }
+
+/* --- Footer extras --- */
+.social { display: flex; gap: 14px; }
+.social a { display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center; background: var(--edge); color: var(--bone); }
+.social a:hover { background: var(--bone); color: var(--ink); }
+.social svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* --- 404: the lantern toy fills the page behind the text --- */
+.lost { position: relative; overflow: hidden; }
+.lost canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: none; touch-action: none; }
+.lost .wrap { position: relative; pointer-events: none; }
+.lost .wrap a { pointer-events: auto; }
+.lost .hint { color: var(--fog); font-size: 15px; margin-top: 18px; }
+@media (hover: none) { .game-card .art .play-hint { display: none; } }
