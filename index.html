@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Defacer Studios</title>
+  <meta name="description" content="Defacer Studios is an independent studio making games for phones and PC.">
+  <meta property="og:title" content="Defacer Studios">
+  <meta property="og:description" content="An independent studio making games for phones and PC.">
+  <meta property="og:image" content="https://defacerstudios.github.io/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://defacerstudios.github.io/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#12151c">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="logo" href="./" aria-label="Defacer Studios home"><span class="cut" aria-hidden="true"><span class="a">Defacer</span><span class="b">Defacer</span></span></a>
+      <nav class="nav" aria-label="Main">
+        <a href="#games">Games</a>
+        <a href="news/">News</a>
+        <a href="#studio">Studio</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <!-- Backdrop: slices of game art cut on the slash's angle. Swap the images
+           for the newest games as they come out. -->
+      <div class="shards" aria-hidden="true">
+        <div class="shard s1" style="background-image: url(assets/img/embersiege/04_boss.jpg)"></div>
+        <div class="shard s2" style="background-image: url(assets/img/embersiege/05_horde.jpg)"></div>
+        <div class="shard s3" style="background-image: url(assets/img/embersiege/01_lantern.jpg)"></div>
+      </div>
+      <div class="wrap">
+        <h1 class="cut" aria-label="Defacer Studios"><span class="a" aria-hidden="true">Defacer Studios</span><span class="b" aria-hidden="true">Defacer Studios</span></h1>
+        <div class="lede">
+          <p>An independent studio making games for phones and PC.</p>
+          <div class="actions">
+            <a class="btn" href="#games">See our games</a>
+            <a class="btn ghost" href="#contact">Get in touch</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- News strip: the latest from the studio, separated by slashes. -->
+    <div class="strip" aria-label="Studio news">
+      <div class="strip-inner" data-feed="news/feed.json">
+        <span><strong>Ember Siege</strong> coming soon to Google Play</span>
+        <i aria-hidden="true"></i>
+        <span>Five maps. Five bosses. One lantern.</span>
+        <i aria-hidden="true"></i>
+        <span>More games in development</span>
+      </div>
+    </div>
+
+    <section id="games" class="block">
+      <div class="wrap">
+        <h2>Games</h2>
+        <!-- One card per game. --game is the game's own colour (frame on hover). -->
+        <div class="game-wrap">
+        <a class="game-card notch" href="embersiege/" style="--game: #ffb347">
+          <div class="inner notch">
+            <div class="art">
+              <img src="assets/img/embersiege/feature.jpg" alt="Ember Siege: a hooded keeper holds a lantern as shadow creatures close in" width="1024" height="500">
+              <video src="assets/video/embersiege-preview.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
+              <span class="play-hint">Hover to preview</span>
+            </div>
+            <div class="info">
+              <div class="name">
+                <img src="assets/img/embersiege/icon.png" alt="" width="56" height="56">
+                <h3>Ember Siege</h3>
+              </div>
+              <div class="status">Coming soon to Google Play</div>
+              <p>Hold the last lantern through a night of shadows. Move with one thumb, pick a gift at every level and survive until dawn.</p>
+              <ul class="facts">
+                <li>Android</li>
+                <li>Survival roguelite</li>
+                <li>Free</li>
+              </ul>
+            </div>
+          </div>
+        </a>
+        </div>
+        <p class="more"><strong>More games are in development</strong> for phones and PC. New ones appear here first.</p>
+      </div>
+    </section>
+
+    <section id="studio" class="block band">
+      <div class="wrap studio">
+        <div>
+          <h2 class="statement slash-head">Every game gets its own world. They all get the same care.</h2>
+        </div>
+        <ul class="creed">
+          <li><strong>Feel comes first</strong>Responsive controls and clear feedback, before anything else.</li>
+          <li><strong>Fair to players</strong>No pay-to-win. Where a game has ads, watching one is always your choice.</li>
+          <li><strong>Your data stays yours</strong>We collect as little as possible, and every game has a plain-language privacy policy.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="block contact">
+      <div class="wrap">
+        <h2>Contact</h2>
+        <p>Support, feedback, press or business:</p>
+        <a class="mail" href="mailto:defacerstudios@gmail.com">defacerstudios@gmail.com</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>&copy; 2026 Defacer Studios. All rights reserved.</div>
+      <div class="links">
+        <a href="embersiege/">Ember Siege</a>
+        <a href="news/">News</a>
+        <a href="embersiege/privacy-policy">Ember Siege privacy policy</a>
+      </div>
+      <!-- Social links: uncomment and fill in once the channels exist.
+      <div class="social">
+        <a href="https://www.youtube.com/@CHANNEL" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.8 15.1V8.9l5.4 3.1z"/></svg></a>
+        <a href="https://www.tiktok.com/@HANDLE" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 2h-3.3v13.3a2.9 2.9 0 1 1-2-2.8V9.2a6.2 6.2 0 1 0 5.3 6.1V8.6a7.8 7.8 0 0 0 4.4 1.4V6.7a4.4 4.4 0 0 1-4.4-4.7z"/></svg></a>
+      </div>
+      -->
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

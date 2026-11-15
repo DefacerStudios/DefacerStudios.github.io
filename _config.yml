@@ -1,2 +1,12 @@
 # Empty title hides the default Primer site heading on every page.
 title: ""
+
+# News posts (_posts/YYYY-MM-DD-title.md) live at /news/YYYY/MM/title/ and use the
+# post layout. Scoped to posts only, so other pages (privacy policies) keep their URLs.
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      permalink: /news/:year/:month/:title/
